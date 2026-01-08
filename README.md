@@ -1,119 +1,246 @@
-# TypeScript Express API
+# Notion Image Uploader
 
-A modern REST API built with TypeScript and Express, featuring a clean architecture and comprehensive testing.
+A Mac command-line tool to upload folders of images to Notion databases. Built with TypeScript and Node.js.
 
 ## Features
 
-- **TypeScript** - Type-safe code with full TypeScript support
-- **Express** - Fast, unopinionated web framework
-- **Jest** - Complete testing setup with example tests
-- **ESLint** - Code linting for consistent code style
-- **CORS** - Cross-origin resource sharing enabled
-- **Environment Variables** - Configuration via .env files
+- Upload entire folders of images to Notion with a single command
+- Support for multiple image formats (JPG, PNG, GIF, WebP, BMP, SVG)
+- Recursive folder scanning option
+- Progress tracking and detailed upload reports
+- Connection testing before uploads
+- Configurable via environment variables or command-line options
+
+## Prerequisites
+
+- Node.js (v18 or higher recommended)
+- A Notion account with API access
+- A Notion database to upload images to
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd notion-image-uploader
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Create a `.env` file from the example:
+```bash
+cp .env.example .env
+```
+
+4. Configure your Notion credentials in `.env`:
+```
+NOTION_API_KEY=your_notion_api_key_here
+NOTION_DATABASE_ID=your_notion_database_id_here
+```
+
+## Setting Up Notion
+
+### 1. Create a Notion Integration
+
+1. Go to [Notion Integrations](https://www.notion.so/my-integrations)
+2. Click "New integration"
+3. Give it a name (e.g., "Image Uploader")
+4. Select the workspace where you want to use it
+5. Copy the "Internal Integration Token" - this is your `NOTION_API_KEY`
+
+### 2. Create a Database
+
+1. In Notion, create a new database (or use an existing one)
+2. Add a "Name" property (title type) - this will store the image filename
+3. Share the database with your integration:
+   - Click "Share" in the top-right corner
+   - Invite your integration
+   - Give it "Can edit" permissions
+
+### 3. Get the Database ID
+
+The database ID is in the URL of your database page:
+```
+https://www.notion.so/[workspace]/[DATABASE_ID]?v=[view_id]
+```
+
+Copy the `DATABASE_ID` part (32 characters, letters and numbers).
+
+## Usage
+
+### Build the Project
+
+```bash
+npm run build
+```
+
+### Upload Images
+
+Upload all images from a folder:
+```bash
+npm run cli upload /path/to/your/images
+```
+
+Upload images recursively (including subfolders):
+```bash
+npm run cli upload /path/to/your/images --recursive
+```
+
+Specify custom file extensions:
+```bash
+npm run cli upload /path/to/your/images --extensions jpg,png,webp
+```
+
+Override environment variables:
+```bash
+npm run cli upload /path/to/your/images --api-key YOUR_KEY --database-id YOUR_DB_ID
+```
+
+### Test Connection
+
+Verify your Notion configuration is correct:
+```bash
+npm run cli test-connection
+```
+
+### Global Installation (Optional)
+
+To use the tool globally on your Mac:
+
+```bash
+npm run build
+npm link
+```
+
+Then you can use it anywhere:
+```bash
+notion-upload upload /path/to/images
+notion-upload test-connection
+```
+
+## Command Reference
+
+### `upload <folder>`
+
+Upload images from a folder to Notion.
+
+**Arguments:**
+- `<folder>` - Path to the folder containing images (required)
+
+**Options:**
+- `-r, --recursive` - Include images in subfolders
+- `-e, --extensions <ext>` - Comma-separated list of file extensions (default: jpg,jpeg,png,gif,webp,bmp,svg)
+- `-k, --api-key <key>` - Notion API key (overrides .env)
+- `-d, --database-id <id>` - Notion database ID (overrides .env)
+
+**Examples:**
+```bash
+# Upload images from a folder
+npm run cli upload ~/Pictures/vacation
+
+# Upload images recursively
+npm run cli upload ~/Pictures/vacation --recursive
+
+# Upload only JPG and PNG files
+npm run cli upload ~/Pictures/vacation --extensions jpg,png
+```
+
+### `test-connection`
+
+Test connection to your Notion database.
+
+**Options:**
+- `-k, --api-key <key>` - Notion API key (overrides .env)
+- `-d, --database-id <id>` - Notion database ID (overrides .env)
+
+**Example:**
+```bash
+npm run cli test-connection
+```
 
 ## Project Structure
 
 ```
 .
 ├── src/
-│   ├── index.ts           # Application entry point
-│   └── routes/
-│       ├── health.ts      # Health check endpoint
-│       ├── health.test.ts # Health endpoint tests
-│       ├── users.ts       # User CRUD endpoints
-│       └── users.test.ts  # User endpoint tests
-├── dist/                  # Compiled JavaScript (generated)
+│   ├── cli.ts                    # CLI interface and commands
+│   ├── services/
+│   │   ├── notionService.ts      # Notion API integration
+│   │   └── imageProcessor.ts     # Image file handling
+│   ├── index.ts                  # Express server (legacy)
+│   └── routes/                   # API routes (legacy)
+├── dist/                         # Compiled JavaScript (generated)
 ├── package.json
 ├── tsconfig.json
-├── jest.config.js
-└── .eslintrc.js
+└── .env                          # Configuration (create from .env.example)
 ```
 
-## Getting Started
+## Development
 
-### Prerequisites
-
-- Node.js (v18 or higher recommended)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository
-2. Install dependencies:
+### Run in Development Mode
 
 ```bash
-npm install
-```
+# Test the CLI during development
+npm run cli upload /path/to/images
 
-3. Create a `.env` file (copy from `.env.example`):
-
-```bash
-cp .env.example .env
-```
-
-### Running the Application
-
-**Development mode** (with hot reload):
-```bash
+# Run with TypeScript hot-reload (for server mode)
 npm run dev
 ```
 
-**Production mode**:
-```bash
-npm run build
-npm start
-```
+### Run Tests
 
-The server will start on `http://localhost:3000` (or the PORT specified in your .env file).
-
-## API Endpoints
-
-### Health Check
-
-- **GET** `/health` - Check API health status
-
-### Users
-
-- **GET** `/api/users` - Get all users
-- **GET** `/api/users/:id` - Get a specific user
-- **POST** `/api/users` - Create a new user
-  - Body: `{ "name": "string", "email": "string" }`
-- **PUT** `/api/users/:id` - Update a user
-  - Body: `{ "name": "string", "email": "string" }`
-- **DELETE** `/api/users/:id` - Delete a user
-
-## Testing
-
-Run all tests:
 ```bash
 npm test
 ```
 
-Run tests in watch mode:
-```bash
-npm run test:watch
-```
+### Lint Code
 
-## Code Quality
-
-Run ESLint:
 ```bash
 npm run lint
 ```
 
-## Next Steps
+## How It Works
 
-This is a starter template. Here are some ideas to extend it:
+1. **Image Discovery**: The tool scans the specified folder for image files matching the configured extensions
+2. **Notion Connection**: Verifies connection to your Notion database
+3. **Upload Process**: For each image:
+   - Reads the image file
+   - Converts it to base64 encoding
+   - Creates a new page in your Notion database
+   - Adds the image as a block in the page
+   - Sets the page title to the filename
+4. **Progress Reporting**: Shows real-time upload progress and final summary
 
-- Add a database (PostgreSQL, MongoDB, etc.)
-- Implement authentication & authorization (JWT, OAuth)
-- Add request validation (Zod, Joi)
-- Set up Docker containerization
-- Add API documentation (Swagger/OpenAPI)
-- Implement logging (Winston, Pino)
-- Add rate limiting and security middleware (Helmet)
-- Set up CI/CD pipelines
+## Limitations
+
+- Base64 encoding is used for image uploads, which may have size limitations in Notion's API
+- Large images may take longer to upload
+- The Notion API has rate limits - for very large batches, uploads may be throttled
+
+## Troubleshooting
+
+### "NOTION_API_KEY is required"
+Make sure you've created a `.env` file and added your Notion API key, or pass it via `--api-key`.
+
+### "Failed to connect to Notion"
+- Verify your API key is correct
+- Ensure the database ID is correct
+- Check that you've shared the database with your integration
+- Run `npm run cli test-connection` to diagnose the issue
+
+### "No images found"
+- Check that the folder path is correct
+- Verify the folder contains supported image formats
+- Try using `--recursive` to search subfolders
+- Check file permissions
 
 ## License
 
 MIT
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
