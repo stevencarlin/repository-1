@@ -1,15 +1,17 @@
 # Notion Image Uploader
 
-A Mac command-line tool to upload folders of images to Notion databases. Built with TypeScript and Node.js.
+A Mac application to upload folders of images to Notion databases with a beautiful web interface. Built with TypeScript and Node.js.
 
 ## Features
 
-- Upload entire folders of images to Notion with a single command
-- Support for multiple image formats (JPG, PNG, GIF, WebP, BMP, SVG)
-- Recursive folder scanning option
-- Progress tracking and detailed upload reports
-- Connection testing before uploads
-- Configurable via environment variables or command-line options
+- **🎨 Beautiful Web GUI** - Drag-and-drop interface that opens in your browser
+- **📁 Folder Upload** - Upload entire folders of images with one click
+- **🔄 Drag & Drop** - Simply drag folders into the app
+- **📊 Progress Tracking** - Real-time upload progress with visual feedback
+- **🖼️ Multiple Formats** - Support for JPG, PNG, GIF, WebP, BMP, SVG
+- **♻️ Recursive Scanning** - Include images from subfolders
+- **✅ Connection Testing** - Verify Notion setup before uploading
+- **💻 CLI Alternative** - Command-line interface also available
 
 ## Prerequisites
 
@@ -71,13 +73,47 @@ Copy the `DATABASE_ID` part (32 characters, letters and numbers).
 
 ## Usage
 
-### Build the Project
+### 🎨 Using the Web GUI (Recommended)
+
+The easiest way to use the app is through the web interface:
+
+1. **Start the app:**
+   ```bash
+   npm run gui
+   ```
+
+2. **The app will automatically:**
+   - Build the project
+   - Start the server
+   - Open your web browser to http://localhost:3000
+
+3. **Upload your images:**
+   - Drag and drop a folder onto the upload zone, OR
+   - Click "Browse Folders" to select a folder
+   - Watch the progress in real-time
+   - See a summary when complete
+
+4. **Stop the app:**
+   - Press `Ctrl + C` in the terminal
+
+**Quick Start Example:**
+```bash
+# Make sure you've configured .env first!
+npm run gui
+# Browser opens automatically - just drag a folder in!
+```
+
+### 💻 Using the Command Line (Alternative)
+
+If you prefer the command line:
+
+#### Build the Project
 
 ```bash
 npm run build
 ```
 
-### Upload Images
+#### Upload Images
 
 Upload all images from a folder:
 ```bash

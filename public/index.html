@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notion Image Uploader</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📷 Notion Image Uploader</h1>
+            <p>Upload your images to Notion with ease</p>
+        </header>
+
+        <div class="status-bar">
+            <div class="status-indicator" id="status">
+                <span class="status-dot"></span>
+                <span id="statusText">Checking connection...</span>
+            </div>
+        </div>
+
+        <main>
+            <div class="upload-section">
+                <div class="drop-zone" id="dropZone">
+                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <h2>Drag & Drop Folder Here</h2>
+                    <p>or</p>
+                    <button class="btn-primary" id="browseBtn">Browse Folders</button>
+                    <input type="file" id="fileInput" webkitdirectory directory multiple style="display: none;">
+                </div>
+
+                <div class="options">
+                    <label class="checkbox">
+                        <input type="checkbox" id="recursiveCheck" checked>
+                        <span>Include subfolders</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="progress-section" id="progressSection" style="display: none;">
+                <h3>Upload Progress</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="progressText">0 / 0 images uploaded</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="file-list" id="fileList"></div>
+            </div>
+
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <div class="results-header">
+                    <h3>Upload Complete!</h3>
+                    <button class="btn-secondary" id="resetBtn">Upload More Images</button>
+                </div>
+                <div class="results-summary">
+                    <div class="result-stat success">
+                        <div class="stat-number" id="successCount">0</div>
+                        <div class="stat-label">Successful</div>
+                    </div>
+                    <div class="result-stat failed">
+                        <div class="stat-number" id="failedCount">0</div>
+                        <div class="stat-label">Failed</div>
+                    </div>
+                    <div class="result-stat total">
+                        <div class="stat-number" id="totalCount">0</div>
+                        <div class="stat-label">Total</div>
+                    </div>
+                </div>
+                <div class="failed-files" id="failedFiles" style="display: none;">
+                    <h4>Failed Uploads:</h4>
+                    <ul id="failedFilesList"></ul>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Configure your Notion API credentials in the <code>.env</code> file</p>
+        </footer>
+    </div>
+
+    <script src="/app.js"></script>
+</body>
+</html>

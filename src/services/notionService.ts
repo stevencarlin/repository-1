@@ -37,6 +37,25 @@ export class NotionService {
       const imageBuffer = await fs.readFile(imagePath);
       const mimeType = mime.lookup(imagePath) || 'image/jpeg';
 
+      return await this.uploadImageFromBuffer(fileName, imageBuffer, mimeType);
+    } catch (error) {
+      return {
+        fileName,
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  /**
+   * Upload an image from a buffer to Notion
+   */
+  async uploadImageFromBuffer(
+    fileName: string,
+    imageBuffer: Buffer,
+    mimeType: string
+  ): Promise<ImageUploadResult> {
+    try {
       // Create a page in the Notion database with the image
       const response = await this.client.pages.create({
         parent: {
