@@ -1,9 +1,10 @@
 # Notion Image Uploader
 
-A Mac application to upload folders of images to Notion databases with a beautiful web interface. Built with TypeScript and Node.js.
+A standalone Mac application to upload folders of images to Notion databases with a beautiful web interface. Built with TypeScript and Node.js.
 
 ## Features
 
+- **🖥️ Standalone Mac App** - Double-click to launch, no terminal commands needed
 - **🎨 Beautiful Web GUI** - Drag-and-drop interface that opens in your browser
 - **📁 Folder Upload** - Upload entire folders of images with one click
 - **🔄 Drag & Drop** - Simply drag folders into the app
@@ -13,13 +14,56 @@ A Mac application to upload folders of images to Notion databases with a beautif
 - **✅ Connection Testing** - Verify Notion setup before uploading
 - **💻 CLI Alternative** - Command-line interface also available
 
-## Prerequisites
+## Quick Start (Recommended)
 
-- Node.js (v18 or higher recommended)
-- A Notion account with API access
-- A Notion database to upload images to
+### 1. Install Node.js
+Download and install from [nodejs.org](https://nodejs.org) if you haven't already.
 
-## Installation
+### 2. Install the Mac App
+
+Run the installation script:
+```bash
+./install-app.sh
+```
+
+Choose where to install:
+- **Applications folder** (recommended) - Available from Spotlight and Launchpad
+- **Desktop** - Quick access, just double-click
+
+### 3. Configure Notion
+
+Edit the `.env` file in this folder:
+```bash
+nano .env
+```
+
+Add your Notion credentials:
+```
+NOTION_API_KEY=your_notion_api_key_here
+NOTION_DATABASE_ID=your_notion_database_id_here
+```
+
+See [Setting Up Notion](#setting-up-notion) below for how to get these.
+
+### 4. Launch the App
+
+- **From Applications**: Open Spotlight (⌘+Space), type "Notion Image Uploader"
+- **From Desktop**: Double-click the app icon
+- **From Finder**: Navigate to where you installed it and double-click
+
+The app will:
+1. Open Terminal (first time only: installs dependencies)
+2. Start the server
+3. Open your browser automatically
+4. Show the upload interface
+
+### 5. Upload Images
+
+Drag a folder onto the interface and watch your images upload!
+
+---
+
+## Advanced Installation (For Developers)
 
 1. Clone the repository:
 ```bash

@@ -1,0 +1,85 @@
+╔════════════════════════════════════════════════════════════╗
+║                                                            ║
+║          NOTION IMAGE UPLOADER - INSTALLATION              ║
+║                                                            ║
+╚════════════════════════════════════════════════════════════╝
+
+📦 WHAT YOU HAVE:
+
+  A standalone Mac app called "Notion Image Uploader.app"
+  that lets you upload image folders to Notion with a
+  beautiful drag-and-drop interface.
+
+
+🚀 QUICK INSTALLATION (3 STEPS):
+
+  1. Make sure Node.js is installed
+     → Download from: https://nodejs.org
+     → Install it, then restart Terminal
+
+  2. Run the installation script
+     → Open Terminal
+     → Navigate to this folder:
+       cd /home/user/repository-1
+     → Run:
+       ./install-app.sh
+     → Choose where to install (Applications or Desktop)
+
+  3. Configure your Notion credentials
+     → Edit the .env file in this folder:
+       nano .env
+     → Add your NOTION_API_KEY and NOTION_DATABASE_ID
+     → See README.md for how to get these from Notion
+
+
+✨ HOW TO USE:
+
+  After installation:
+
+  • Double-click "Notion Image Uploader" to launch
+  • Terminal will open and start the server
+  • Browser will open automatically with the upload interface
+  • Drag a folder of images onto the interface
+  • Watch them upload to Notion!
+
+  To stop: Press Ctrl+C in the Terminal window
+
+
+🔧 TROUBLESHOOTING:
+
+  "App can't be opened because it is from an unidentified developer"
+  → Right-click the app, select "Open", then click "Open" again
+  → This only needs to be done once
+
+  "Node.js is not installed"
+  → Download and install from https://nodejs.org
+  → Restart Terminal after installation
+
+  "Connection failed"
+  → Make sure you've configured .env with your Notion credentials
+  → Check that you've shared your Notion database with the integration
+
+
+📖 FULL DOCUMENTATION:
+
+  See README.md for:
+  • Detailed Notion setup instructions
+  • How to get your API key and database ID
+  • Advanced usage options
+  • Command-line interface
+  • Troubleshooting guide
+
+
+💡 TIPS:
+
+  • Add the app to your Dock for quick access
+  • Use Spotlight (⌘+Space) to launch it quickly
+  • Keep Terminal open while the app is running
+  • The first launch will install dependencies (one-time)
+
+
+═══════════════════════════════════════════════════════════
+
+Need help? Check README.md or the GitHub repository.
+
+═══════════════════════════════════════════════════════════

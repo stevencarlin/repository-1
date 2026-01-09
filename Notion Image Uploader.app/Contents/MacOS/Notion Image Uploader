@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Get the directory where this app is located
+APP_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+
+# Change to the app directory
+cd "$APP_DIR"
+
+# Function to display notification
+notify() {
+    osascript -e "display notification \"$1\" with title \"Notion Image Uploader\""
+}
+
+# Check if running in macOS
+if [[ "$OSTYPE" != "darwin"* ]]; then
+    echo "This app is designed for macOS"
+    exit 1
+fi
+
+# Check if Node.js is installed
+if ! command -v node &> /dev/null; then
+    osascript -e 'display dialog "Node.js is not installed. Please install Node.js from https://nodejs.org" buttons {"OK"} default button "OK" with icon stop'
+    open "https://nodejs.org"
+    exit 1
+fi
+
+# Check if npm is installed
+if ! command -v npm &> /dev/null; then
+    osascript -e 'display dialog "npm is not installed. Please install Node.js from https://nodejs.org" buttons {"OK"} default button "OK" with icon stop'
+    open "https://nodejs.org"
+    exit 1
+fi
+
+# Show starting notification
+notify "Starting Notion Image Uploader..."
+
+# Open a new Terminal window and run the app
+osascript <<EOF
+tell application "Terminal"
+    activate
+    do script "cd '$APP_DIR' && echo '🚀 Notion Image Uploader' && echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━' && echo '' && if [ ! -d 'node_modules' ]; then echo '📦 Installing dependencies (first time only)...'; npm install; fi && echo '' && echo '✨ Starting the app...' && echo '' && npm run gui && echo '' && echo '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━' && echo '✅ App stopped. You can close this window.' && echo ''"
+end tell
+EOF
+
+# Show success notification after a delay
+sleep 3
+notify "Browser should open automatically!"
+
+exit 0
